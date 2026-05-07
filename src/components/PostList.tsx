@@ -1,10 +1,19 @@
-const PostList = ({ posts }) => {
+import { usePost } from "./context/PostContext";
+import { useTheme } from "./context/ThemeContext";
+
+const PostList = () => {
+  const { theme } = useTheme();
+
+  const { searchedPosts } = usePost();
+
   return (
-    <div className="grid grid-cols-4 gap-4 mt-3">
-      {[...posts].reverse().map((post) => (
-        <div key={post.id} className="bg-gray-100 p-4 rounded-md">
-          <h2 className="text-xl font-bold mb-2">{post.title}</h2>
-          <p>{post.content}</p>
+    <div className="grid grid-cols-4 gap-4 mt-8">
+      {searchedPosts.map((post) => (
+        <div key={post.id} className="content-section">
+          <h2 className="text-xl font-bold mb-2 text-text-strong font-serif">
+            {post.title}
+          </h2>
+          <p className="text-text-muted">{post.content}</p>
         </div>
       ))}
     </div>

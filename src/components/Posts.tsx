@@ -1,16 +1,12 @@
 import AddPost from "./AddPost";
 import PostList from "./PostList";
 
-const Posts = ({ posts, setPosts }) => {
-
-  const handlePosts = (newPost) => {
-    setPosts([...posts, newPost]);
-  };
+const Posts = () => {
 
   return (
     <div>
-      <AddPost onAdd={handlePosts} />
-      <PostList posts={posts} />
+      <AddPost />
+      <PostList  />
     </div>
   );
 };

@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { usePost } from "./context/PostContext";
 
-const AddPost = ({ onAdd }) => {
+const AddPost = () => {
+  const {addPost} = usePost();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onAdd({
+    if (!title.trim() || !content.trim()) return; 
+    addPost({
       title: title,
       content: content,
-      id: Date.now(),
     });
     setTitle("");
     setContent("");
@@ -16,23 +18,23 @@ const AddPost = ({ onAdd }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex gap-6 bg-blue-500 p-6 rounded-md items-center justify-between">
+    <form onSubmit={handleSubmit} className="hero-card">
+      <div className="flex gap-6 items-center justify-between">
         <input
           type="text"
           placeholder="Title"
-          className="border border-gray-300 rounded-md px-2 py-4 "
+          className="hero-input flex-1"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <textarea
           placeholder="Post content"
-          className="border border-gray-300 rounded-md px-2 py-1 w-2xl"
+          className="hero-input flex-[2]"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
         <button
-          className="bg-green-500 text-white px-4 py-4 rounded-md"
+          className="primary-btn px-8"
           type="submit"
         >
           Add Post

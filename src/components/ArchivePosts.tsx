@@ -1,54 +1,67 @@
 import { faker } from "@faker-js/faker";
 import { useState } from "react";
+import { usePost } from "./context/PostContext";
+import { useTheme } from "./context/ThemeContext";
 
-const ArchivePosts = ({ posts, setPosts }) => {
-    const [isArchive, setIsArchive] = useState(false)
-  const [listPosts, setListPosts] = useState([]);
+const ArchivePosts = () => {
+  const { theme } = useTheme();
+  const { addPost, setArchivePosts, searchedArchivePosts, archivePosts } =
+    usePost();
+  const [isArchive, setIsArchive] = useState(false);
 
   const createRandomPost = () => {
     return {
-      id: Math.random().toString(36),
+      id: faker.string.uuid(),
       title: `${faker.hacker.adjective()} ${faker.hacker.noun()}`,
       content: faker.hacker.phrase(),
     };
   };
-  const getPosts = faker.helpers.multiple(createRandomPost, { count: 50 });
-//   console.log(listPosts);
+  // console.log(archivePosts);
 
+  const handleArchivePosts = () => {
+    if (!isArchive && archivePosts.length === 0) {
+      const getPosts = faker.helpers.multiple(createRandomPost, { count: 50 });
+      setArchivePosts(getPosts);
+    }
+    setIsArchive((prev) => !prev);
+  };
 
-const handleArchive = ()=>{
-    setIsArchive(!isArchive)
-}
+  const handleAddToPosts = (post: string) => {
+    addPost(post);
+
+    const updatedArchivePosts = archivePosts.filter((p) => p.id !== post.id);
+    setArchivePosts(updatedArchivePosts);
+  };
+
   return (
-    <div>
-      <p className="text-2xl font-bold text-gray-600 uppercase">Post archive</p>
-      <button
-        className="bg-green-500 text-white px-4 py-4 rounded-md mt-4"
-        onClick={() => setListPosts([...listPosts, ...getPosts])}
-      >
-        Archive Posts
+    <div className="mt-12">
+      <p className="eyebrow">Post archive</p>
+      <button className="secondary-btn mt-4" onClick={handleArchivePosts}>
+        {isArchive ? "Hide Archive" : "Show Archive Posts"}
       </button>
-      <div className="flex flex-col gap-1 mt-2">
-        {listPosts.map((post) => (
-          <div
-            key={post.id}
-            className="bg-gray-100 p-2 rounded-lg flex gap-2 items-center justify-between"
-          >
-            <div className="flex items-center text-center gap-2">
-              <h6 className="text-md font-bold ">{post.title}:</h6>
-              <p className="text-sm">{post.content}</p>
-            </div>
-            <button
-              className="bg-green-500 text-white px-2 py-1 rounded-md"
-              onClick={() =>
-                setPosts((prev) => [...prev, post])
-              }
+      {isArchive && (
+        <div className="flex flex-col gap-3 mt-4">
+          {searchedArchivePosts.map((post) => (
+            <div
+              key={post.id}
+              className="p-3 rounded-lg flex gap-4 items-center justify-between bg-surface-soft border border-border"
             >
-              Add to Posts
-            </button>
-          </div>
-        ))}
-      </div>
+              <div className="flex items-center gap-2">
+                <h6 className="text-md font-bold text-text-strong">
+                  {post.title}:
+                </h6>
+                <p className="text-sm text-text-muted">{post.content}</p>
+              </div>
+              <button
+                className="ghost-btn text-xs py-1 "
+                onClick={() => handleAddToPosts(post)}
+              >
+                Add to Posts
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
