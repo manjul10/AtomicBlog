@@ -1,10 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { useState } from "react";
 import { usePost } from "./context/PostContext";
-import { useTheme } from "./context/ThemeContext";
+import type { Post } from "../types";
 
 const ArchivePosts = () => {
-  const { theme } = useTheme();
   const { addPost, setArchivePosts, searchedArchivePosts, archivePosts } =
     usePost();
   const [isArchive, setIsArchive] = useState(false);
@@ -16,7 +15,6 @@ const ArchivePosts = () => {
       content: faker.hacker.phrase(),
     };
   };
-  // console.log(archivePosts);
 
   const handleArchivePosts = () => {
     if (!isArchive && archivePosts.length === 0) {
@@ -26,7 +24,7 @@ const ArchivePosts = () => {
     setIsArchive((prev) => !prev);
   };
 
-  const handleAddToPosts = (post: string) => {
+  const handleAddToPosts = (post: Post) => {
     addPost(post);
 
     const updatedArchivePosts = archivePosts.filter((p) => p.id !== post.id);

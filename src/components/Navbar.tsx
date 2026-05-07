@@ -1,10 +1,17 @@
-import Logo from '../assets/react.svg';
-import { usePost } from './context/PostContext';
+import Logo from "../assets/react.svg";
+import { usePost } from "./context/PostContext";
 const Navbar = () => {
-  const {  clearPosts, setQuery, setSearchType,query, searchType, searchedPosts, searchedArchivePosts } = usePost();
-  
-  
-  const postToShow = searchType === "posts" ? searchedPosts.length : searchedArchivePosts.length;
+  const {
+    clearPosts,
+    setQuery,
+    setSearchType,
+    searchType,
+    searchedPosts,
+    searchedArchivePosts,
+  } = usePost();
+
+  const postToShow =
+    searchType === "posts" ? searchedPosts.length : searchedArchivePosts.length;
 
   return (
     <div className="flex justify-between items-center py-4 text-text-strong">
@@ -13,7 +20,9 @@ const Navbar = () => {
         AtomicBlog
       </div>
       <div className="flex gap-4 text-center items-center">
-        <span className="text-text-muted">No of atomic Post found: {postToShow}</span>
+        <span className="text-text-muted">
+          No of atomic Post found: {postToShow}
+        </span>
         <input
           type="text"
           placeholder={`Search ${searchType === "posts" ? "Posts" : "Archive Posts"}...`}

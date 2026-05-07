@@ -1,9 +1,6 @@
 import { usePost } from "./context/PostContext";
-import { useTheme } from "./context/ThemeContext";
 
 const PostList = () => {
-  const { theme } = useTheme();
-
   const { searchedPosts } = usePost();
 
   return (

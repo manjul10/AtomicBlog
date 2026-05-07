@@ -1,13 +1,19 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import BedtimeOutlinedIcon from "@mui/icons-material/BedtimeOutlined";
-const ThemeContext = createContext();
+import type {
+  ThemeContextType,
+  Theme,
+  ThemeState,
+  ThemeAction,
+} from "../../types";
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const initialState = {
+const initialState: ThemeState = {
   theme: "light",
 };
 
-const reducer = (state, action) => {
+const reducer = (state: ThemeState, action: ThemeAction) => {
   switch (action.type) {
     case "SET_THEME":
       return {
@@ -19,22 +25,21 @@ const reducer = (state, action) => {
   }
 };
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const theme = state.theme;
 
+  useEffect(() => {
+    const root = window.document.documentElement;
 
-useEffect(() => {
-  const root = window.document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [theme]);
 
-  if (theme === "dark") {
-    root.classList.add("dark");
-  } else {
-    root.classList.remove("dark");
-  }
-}, [theme]);
-
-  const setTheme = (theme) => {
+  const setTheme = (theme: Theme) => {
     dispatch({ type: "SET_THEME", payload: theme });
   };
 
@@ -45,16 +50,15 @@ useEffect(() => {
   );
 };
 
-
 const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 };
 const ThemedButton = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   return (
     <button
@@ -62,7 +66,7 @@ const ThemedButton = () => {
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       aria-label="Toggle Theme"
     >
-       {theme=== "light" ? <BedtimeOutlinedIcon /> : <WbSunnyOutlinedIcon />} 
+      {theme === "light" ? <BedtimeOutlinedIcon /> : <WbSunnyOutlinedIcon />}
     </button>
   );
 };
