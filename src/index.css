@@ -194,7 +194,6 @@ body {
 }
 
 .hero-input {
-  width: 220px;
   border: 1px solid var(--color-border);
   border-radius: 10px;
   background: var(--color-surface);

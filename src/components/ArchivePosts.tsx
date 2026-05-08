@@ -38,20 +38,20 @@ const ArchivePosts = () => {
         {isArchive ? "Hide Archive" : "Show Archive Posts"}
       </button>
       {isArchive && (
-        <div className="flex flex-col gap-3 mt-4">
+        <div className="flex flex-col gap-4 mt-6">
           {searchedArchivePosts.map((post) => (
             <div
               key={post.id}
-              className="p-3 rounded-lg flex gap-4 items-center justify-between bg-surface-soft border border-border"
+              className="p-5 rounded-xl flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-surface-soft border border-border transition-all hover:shadow-md"
             >
-              <div className="flex items-center gap-2">
-                <h6 className="text-md font-bold text-text-strong">
-                  {post.title}:
+              <div className="flex flex-col gap-1.5 flex-1">
+                <h6 className="text-lg font-bold text-text-strong font-serif">
+                  {post.title}
                 </h6>
-                <p className="text-sm text-text-muted">{post.content}</p>
+                <p className="text-sm text-text-muted leading-relaxed">{post.content}</p>
               </div>
               <button
-                className="ghost-btn text-xs py-1 "
+                className="ghost-btn text-sm py-2 px-5 whitespace-nowrap w-full sm:w-auto shadow-sm"
                 onClick={() => handleAddToPosts(post)}
               >
                 Add to Posts

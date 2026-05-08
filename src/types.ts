@@ -2,6 +2,7 @@ export type Post = {
   id: number | string;
   title: string;
   content: string;
+  image?: string;
 };
 
 export type PostState = {
@@ -9,6 +10,7 @@ export type PostState = {
   archivePosts: Post[];
   query: string;
   searchType: string;
+  image: string;
 };
 
 export type PostAction =
@@ -20,7 +22,7 @@ export type PostAction =
   | { type: "DELETE_POST"; payload: number | string };
 
 export interface PostContextType extends PostState {
-  addPost: (post: { title: string; content: string }) => void;
+  addPost: (post: { title: string; content: string; image?: string }) => void;
   clearPosts: () => void;
   searchedPosts: Post[];
   searchedArchivePosts: Post[];

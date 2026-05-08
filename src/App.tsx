@@ -6,12 +6,12 @@ import { ThemedButton } from "./components/context/ThemeContext";
 function App() {
   return (
     <>
-      <div className="min-h-screen transition-colors duration-300">
-        <div className="flex justify-end p-4 absolute right-0 top-0">
+      <div className="min-h-screen transition-colors duration-300 relative pb-12">
+        <div className="absolute right-4 top-4 sm:right-6 sm:top-6 z-50">
           <ThemedButton />
         </div>
 
-        <div className="max-w-6xl mx-auto p-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-6">
           <Navbar />
           <Posts />
           <ArchivePosts />

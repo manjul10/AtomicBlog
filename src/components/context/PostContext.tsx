@@ -7,6 +7,7 @@ const initialState: PostState = {
   archivePosts: [],
   query: "",
   searchType: "posts",
+  image: "",
 };
 
 const reducer = (state: PostState, action: PostAction) => {
@@ -51,8 +52,8 @@ const reducer = (state: PostState, action: PostAction) => {
 const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addPost = ({ title, content }: { title: string; content: string }) => {
-    const newPost = { id: Date.now(), title, content };
+  const addPost = ({ title, content, image }: { title: string; content: string; image?: string }) => {
+    const newPost = { id: Date.now(), title, content, image };
     dispatch({ type: "ADD_POST", payload: newPost });
   };
 
