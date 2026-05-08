@@ -16,7 +16,8 @@ export type PostAction =
   | { type: "CLEAR_POSTS" }
   | { type: "SET_ARCHIVE_POSTS"; payload: Post[] }
   | { type: "SET_QUERY"; payload: string }
-  | { type: "SET_SEARCH_TYPE"; payload: string };
+  | { type: "SET_SEARCH_TYPE"; payload: string }
+  | { type: "DELETE_POST"; payload: number | string };
 
 export interface PostContextType extends PostState {
   addPost: (post: { title: string; content: string }) => void;
@@ -26,6 +27,7 @@ export interface PostContextType extends PostState {
   setArchivePosts: (posts: Post[]) => void;
   setQuery: (query: string) => void;
   setSearchType: (type: string) => void;
+  deletePost: (id: number | string) => void;
 }
 export interface ThemeState {
   theme: Theme;

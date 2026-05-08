@@ -31,6 +31,13 @@ const reducer = (state: PostState, action: PostAction) => {
         ...state,
         archivePosts: action.payload,
       };
+      case"DELETE_POST":
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post.id !== action.payload),
+      }
+
+
     case "CLEAR_POSTS":
       return {
         ...state,
@@ -74,6 +81,9 @@ const PostProvider = ({ children }: { children: React.ReactNode }) => {
           post.title.toLowerCase().includes(state.query.toLowerCase()),
         )
       : state.archivePosts;
+      const deletePost = (id: number | string) => {
+        dispatch({ type: "DELETE_POST", payload: id });
+      };
 
   const clearPosts = () => {
     dispatch({ type: "CLEAR_POSTS" });
@@ -90,6 +100,7 @@ const PostProvider = ({ children }: { children: React.ReactNode }) => {
         setArchivePosts,
         setQuery,
         setSearchType,
+        deletePost,
       }}
     >
       {children}
